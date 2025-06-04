@@ -1,4 +1,4 @@
-package com.api_vendedor.vendedor;
+package com.api_vendedor;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
