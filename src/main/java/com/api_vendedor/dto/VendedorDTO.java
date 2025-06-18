@@ -1,9 +1,12 @@
 package com.api_vendedor.dto;
 
-import lombok.Data;
+import org.springframework.hateoas.RepresentationModel;
+import lombok.*;
 
 @Data
-public class VendedorDTO {
+@NoArgsConstructor
+@AllArgsConstructor
+public class VendedorDTO extends RepresentationModel<VendedorDTO> {
     private Integer idVendedor;
     private Integer idUsuario;
     private String nombreCompleto;
