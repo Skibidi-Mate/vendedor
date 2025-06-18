@@ -10,6 +10,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/vendedores")
@@ -51,25 +52,30 @@ public class VendedorController {
     }
 
     @GetMapping("/hateoas/{id}")
-    public VendedorDTO obtenerHATEOAS(@PathVariable Integer id) {
-           VendedorDTO dto = vendedorservice.obtenerPorId(id);
-        
+    public ResponseEntity<VendedorDTO> obtenerHATEOAS(@PathVariable Integer id) {
+        Optional<VendedorDTO> optionalDto = vendedorservice.obtenerPorId(id);
+
+        if (optionalDto.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        VendedorDTO dto = optionalDto.get();
         dto.add(linkTo(methodOn(VendedorController.class).obtenerHATEOAS(id)).withSelfRel());
         dto.add(linkTo(methodOn(VendedorController.class).obtenerTodosHATEOAS()).withRel("todos"));
         dto.add(linkTo(methodOn(VendedorController.class).eliminar(id)).withRel("eliminar"));
 
-        return dto;
+        return ResponseEntity.ok(dto);
     }
 
     //METODO HATEOAS para listar todos los productos utilizando HATEOAS
     @GetMapping("/hateoas")
-    public List<VendedorDTO> obtenerTodosHATEOAS() {
+    public ResponseEntity<List<VendedorDTO>> obtenerTodosHATEOAS() {
         List<VendedorDTO> lista = vendedorservice.listar();
 
         for (VendedorDTO dto : lista) {
-            dto.add(linkTo(methodOn(VendedorController.class).obtenerHATEOAS(dto.getId())).withSelfRel());
+            dto.add(linkTo(methodOn(VendedorController.class).obtenerHATEOAS(dto.getIdVendedor())).withSelfRel());
         }
 
-        return lista;
+        return ResponseEntity.ok(lista);
     }
 }
