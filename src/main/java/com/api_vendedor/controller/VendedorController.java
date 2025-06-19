@@ -67,7 +67,7 @@ public class VendedorController {
         return ResponseEntity.ok(dto);
     }
 
-    //METODO HATEOAS para listar todos los productos utilizando HATEOAS
+  
     @GetMapping("/hateoas")
     public ResponseEntity<List<VendedorDTO>> obtenerTodosHATEOAS() {
         List<VendedorDTO> lista = vendedorservice.listar();
