@@ -3,6 +3,7 @@ package com.api_vendedor.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+
 @Entity
 @Table(name = "vendedores")
 @Data
